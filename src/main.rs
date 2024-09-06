@@ -13,14 +13,14 @@ fn main() {
     // Example: Send a subscription request to the relay (replace with your own NOSTR event)
     let subscribe_message = r#"{"type": "SUBSCRIBE", "filters": [{"kinds": [1]}]}"#;
     socket
-        .write_message(Message::Text(subscribe_message.to_string()))
+        .send(Message::Text(subscribe_message.to_string()))
         .expect("Failed to send subscription request");
 
     println!("Subscription request sent!");
 
     // Listen for incoming messages from the relay
     loop {
-        match socket.read_message() {
+        match socket.read() {
             Ok(message) => match message {
                 Message::Text(text) => {
                     println!("Received message: {}", text);
